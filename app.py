@@ -66,7 +66,7 @@ def send_email_to_doctor(doctor_email, farmer_details, disease):
 @st.cache_resource
 def load_model(): return tf.keras.models.load_model("plant_model.h5")
 
-CLASS_NAMES = sorted(os.listdir("dataset/train"))
+CLASS_NAMES = ['Potato___Early_blight', 'Potato___healthy', 'Potato___Late_blight', 'Tomato___Bacterial_spot', 'Tomato___Early_blight', 'Tomato___healthy', 'Tomato___Late_blight', 'Tomato___Leaf_Mold']
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
