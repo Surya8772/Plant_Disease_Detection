@@ -195,7 +195,7 @@ if st.session_state.role == "admin":
             st.image(image, use_container_width=True)
             img = image.resize((128,128))
             arr = np.expand_dims(np.array(img)/255.0, axis=0)
-            model = load_model()
+            model = load_model(plant_model.h5)
             pred = model.predict(arr)
             st.success(f"Prediction: {CLASS_NAMES[np.argmax(pred)]} {np.max(pred)*100:.2f}%")
 
