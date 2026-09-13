@@ -1,0 +1,72 @@
+DOCTORS = [
+    {
+        "id": 1,
+        "name": "Dr. R. K. Sharma",
+        "degree": "Ph.D. Plant Pathology, M.Sc Agriculture",
+        "specialization": "Potato & Tomato Diseases",
+        "experience": "15 Years",
+        "hospital": "ICAR - Indian Institute of Horticultural Research (IIHR)",
+        "location": "Hessarghatta, Bangalore",
+        "contact": "+91 7061060726",
+        "email": "suryaprakashrana302@gmail.com",
+        "consultation_fee": "₹500",
+        "available": "Mon-Sat, 10AM - 5PM",
+        "image": "https://cdn-icons-png.flaticon.com/512/3774/3774294.png"
+    },
+    {
+        "id": 2,
+        "name": "Dr. Priya Nair",
+        "degree": "M.Sc, Ph.D in Agricultural Entomology",
+        "specialization": "Crop Disease Management",
+        "experience": "12 Years",
+        "hospital": "University of Agricultural Sciences (UAS)",
+        "location": "GKVK, Bangalore",
+        "contact": "+91 9353819967",
+        "email": "suryaprakashrana302@gmail.com",
+        "consultation_fee": "₹400",
+        "available": "Mon-Fri, 9AM - 4PM",
+        "image": "https://cdn-icons-png.flaticon.com/512/3774/3774294.png"
+    },
+    {
+        "id": 3,
+        "name": "Dr. Sunil Kumar Reddy",
+        "degree": "B.Sc Agri, M.Sc Agri, Doctor of Plant Medicine",
+        "specialization": "Potato Blight Specialist",
+        "experience": "10 Years",
+        "hospital": "Krishi Vigyan Kendra (KVK)",
+        "location": "Chikkaballapur, Karnataka",
+        "contact": "+91 8296015343",
+        "email": "suryaprakashrana302@gmail.com",
+        "consultation_fee": "₹300",
+        "available": "Tue-Sun, 11AM - 6PM",
+        "image": "https://cdn-icons-png.flaticon.com/512/3774/3774294.png"
+    },
+    {
+        "id": 4,
+        "name": "Dr. Anjali Patel",
+        "degree": "Ph.D. Plant Protection, B.Sc Horticulture",
+        "specialization": "Tomato Bacterial & Fungal Diseases",
+        "experience": "8 Years",
+        "hospital": "Green Field Agri Clinic",
+        "location": "Jayanagar, Bangalore",
+        "contact": "+91 9353991423",
+        "email": "suryaprakashrana302@gmail.com",
+        "consultation_fee": "₹350",
+        "available": "Mon-Sat, 10AM - 7PM",
+        "image": "https://cdn-icons-png.flaticon.com/512/3774/3774294.png"
+    },
+    {
+        "id": 5,
+        "name": "Dr. Mohan Gowda",
+        "degree": "M.Sc Agriculture, Ph.D Horticulture",
+        "specialization": "Organic Disease Control & Prevention",
+        "experience": "20 Years",
+        "hospital": "State Agriculture Department",
+        "location": "Koramangala, Bangalore",
+        "contact": "+91 9177161922",
+        "email": "suryaprakashrana302@gmail.com",
+        "consultation_fee": "₹250 (Govt. Subsidized)",
+        "available": "Mon-Fri, 9:30AM - 5:30PM",
+        "image": "https://cdn-icons-png.flaticon.com/512/3774/3774294.png"
+    }
+]

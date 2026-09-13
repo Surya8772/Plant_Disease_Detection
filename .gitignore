@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+users.csv
+appointments.csv
+venv/
+dataset/
+model/
