@@ -2,7 +2,7 @@
 
 An AI-powered web application to detect plant leaf diseases using Deep Learning (CNN) and connect farmers with expert doctors.
 
-🔗 **Live Demo:** [Coming Soon / Add your Streamlit link here]
+🔗 **Live Demo:** (https://plant-disease-detection-krishirakshak.streamlit.app/)
 🔗 **GitHub:** https://github.com/Surya8772/Plant_Disease_Detection
 
 ![Plant Disease Detection](logo.jpeg)
