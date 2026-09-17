@@ -15,9 +15,8 @@ import plotly.express as px
 
 st.set_page_config(page_title="KrishiRakshak - Plant Doctor AI", page_icon="🌿", layout="wide")
 if os.path.exists("logo.jpeg"):
-    st.sidebar.image("logo.jpeg", use_column_width=True)
+    st.sidebar.image("logo.jpeg")
 
-# --- CONFIG ---
 SENDER_EMAIL = "suryaprakashrana302@gmail.com"
 SENDER_APP_PASSWORD = "qdfo hezx jang fkmb"
 ADMIN_EMAIL = "admin@krishirakshak.com"
@@ -27,8 +26,8 @@ DOCTORS = [
     {"name": "Dr. R. K. Sharma", "degree": "Ph.D. Plant Pathology", "specialization": "Potato & Tomato Diseases", "experience": "15 Years", "hospital": "ICAR - IIHR, Hessarghatta", "location": "Bangalore", "contact": "+91 7061060726", "whatsapp": "917061060726", "email": "suryaprakashrana302@gmail.com", "fee": "₹500"},
     {"name": "Dr. Priya Nair", "degree": "Ph.D Agri Entomology", "specialization": "Crop Disease Management", "experience": "12 Years", "hospital": "UAS, GKVK", "location": "Bangalore", "contact": "+91 9353819967", "whatsapp": "919353819967", "email": "suryaprakashrana302@gmail.com", "fee": "₹400"},
     {"name": "Dr. Sunil Kumar Reddy", "degree": "Doctor of Plant Medicine", "specialization": "Potato Blight Specialist", "experience": "10 Years", "hospital": "KVK, Chikkaballapur", "location": "Chikkaballapur", "contact": "+91 8296015343", "whatsapp": "918296015343", "email": "suryaprakashrana302@gmail.com", "fee": "₹300"},
-    {"name": "Dr. Anjali Patel", "degree": "Ph.D. Plant Protection", "specialization": "Tomato Diseases", "experience": "8 Years", "hospital": "Green Field Agri Clinic", "location": "Jayanagar, Bangalore", "contact": "+91 9353991423", "whatsapp": "919353991423", "email": "suryaprakashrana302@gmail.com", "fee": "₹350"},
-    {"name": "Dr. Mohan Gowda", "degree": "Ph.D Horticulture", "specialization": "Organic Disease Control", "experience": "20 Years", "hospital": "State Agriculture Dept", "location": "Koramangala, Bangalore", "contact": "+91 9177161922", "whatsapp": "919177161922", "email": "suryaprakashrana302@gmail.com", "fee": "₹250"}
+    {"name": "Dr. Anjali Patel", "degree": "Ph.D Plant Protection, B.Sc Horticulture", "specialization": "Tomato Bacterial & Fungal Diseases", "experience": "8 Years", "hospital": "Green Field Agri Clinic", "location": "Jayanagar, Bengalore", "contact": "+91 9353991423", "whatsapp": "9353991423", "email": "suryaprakashrana302@gmail.com", "fee": "₹350"},
+    {"name": "Dr. Mohan Gowda", "degree": "M.Sc Agriculture, Ph.D Horticulture", "specialization": "Organic Disease Control & Prevention", "experience": "20 Years", "hospital": "State Agriculture Department", "location": "Koramangala, Bengalore", "contact": "+91 9177161922", "whatsapp": "9177161922", "email": "suryaprakashrana302@gmail.com", "fee": "₹250"}
 ]
 
 def hash_password(p): return hashlib.sha256(p.encode()).hexdigest()
@@ -48,11 +47,10 @@ def save_user(name, email, password, phone):
 
 def send_email_to_doctor(doctor_email, farmer_details, disease):
     try:
-        if SENDER_EMAIL == "your_email@gmail.com": return False
         msg = MIMEMultipart()
         msg['From'] = SENDER_EMAIL
         msg['To'] = doctor_email
-        msg['Subject'] = f"New Appointment - {disease} - {farmer_details['name']}"
+        msg['Subject'] = f"New Appointment - {disease}"
         body = f"Farmer: {farmer_details['name']}\nPhone: {farmer_details['phone']}\nLocation: {farmer_details['location']}\nDisease: {disease}\nDate: {farmer_details['appt_date']} {farmer_details['time']}\nBooking ID: {farmer_details['booking_id']}"
         msg.attach(MIMEText(body, 'plain'))
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -75,28 +73,18 @@ if "logged_in" not in st.session_state:
     st.session_state.user_email = ""
     st.session_state.user_name = ""
     st.session_state.role = ""
+    st.session_state.auth_tab = "🔐 User Login"
+    st.session_state.signup_done = False
 
 # --- LOGIN PAGE ---
 if not st.session_state.logged_in:
     st.title("🌿 KrishiRakshak - Plant Doctor AI")
     st.markdown("#### AI-Based Disease Detection with Doctor Consultation")
 
-    if "auth_tab" not in st.session_state:
-        st.session_state.auth_tab = "🔐 User Login"
-    if "signup_done" not in st.session_state:
-        st.session_state.signup_done = False
-
-        tab_options = ["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"]
-        # Set default tab from session_state
-        default_index = tab_options.index(st.session_state.auth_tab) if st.session_state.auth_tab in tab_options else 0
-    
-        auth_choice = st.radio(
-            "Select", tab_options,
-            horizontal=True, label_visibility="collapsed", 
-            index=default_index
-        )
-        # Keep session state in sync
-        st.session_state.auth_tab = auth_choice
+    tab_options = ["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"]
+    default_index = tab_options.index(st.session_state.auth_tab) if st.session_state.auth_tab in tab_options else 0
+    auth_choice = st.radio("Select", tab_options, horizontal=True, label_visibility="collapsed", index=default_index)
+    st.session_state.auth_tab = auth_choice
 
     if auth_choice == "🔐 User Login":
         if st.session_state.signup_done:
@@ -130,7 +118,7 @@ if not st.session_state.logged_in:
                 st.session_state.signup_done = True
                 st.success("Account Created! Redirecting to Login...")
                 st.balloons()
-                time.sleep(1)
+                time.sleep(1.5)
                 st.session_state.auth_tab = "🔐 User Login"
                 st.rerun()
 
@@ -146,7 +134,6 @@ if not st.session_state.logged_in:
                 st.session_state.role = "admin"
                 st.rerun()
             else: st.error("Invalid Admin Credentials")
-        st.caption(f"Demo: {ADMIN_EMAIL} / admin123")
     st.stop()
 
 # --- SIDEBAR ---
@@ -155,46 +142,31 @@ with st.sidebar:
     st.write(f"Role: {st.session_state.role.upper()}")
     st.markdown("---")
     if st.session_state.role == "admin":
-        menu = st.radio("Admin Panel", ["📊 Admin Dashboard", "👥 All Users", "📋 All Appointments", "👨‍⚕️ Manage Doctors", "🔬 Test Model", "🚪 Logout"])
+        menu = st.radio("Admin Panel", ["📊 Admin Dashboard", "👥 All Users", "📋 All Appointments", "🔬 Test Model", "🚪 Logout"])
     else:
         menu = st.radio("Navigation", ["📊 Dashboard", "🔬 Detect Disease", "👨‍⚕️ Doctors & Booking", "📋 My Appointments", "🚪 Logout"])
 
-# --- ADMIN & USER PANEL (rest same as yours) ---
 if st.session_state.role == "admin":
     if menu == "📊 Admin Dashboard":
         st.title("🛡️ Admin Dashboard")
-        c1, c2, c3, c4 = st.columns(4)
-        total_users = len(pd.read_csv("users.csv")) if os.path.exists("users.csv") else 0
-        total_appts = len(pd.read_csv("appointments.csv")) if os.path.exists("appointments.csv") else 0
-        c1.metric("Total Farmers", total_users)
-        c2.metric("Total Appointments", total_appts)
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Total Farmers", len(pd.read_csv("users.csv")) if os.path.exists("users.csv") else 0)
+        c2.metric("Total Appointments", len(pd.read_csv("appointments.csv")) if os.path.exists("appointments.csv") else 0)
         c3.metric("Doctors", len(DOCTORS))
-        c4.metric("Diseases", len(CLASS_NAMES))
         if os.path.exists("appointments.csv"):
             df = pd.read_csv("appointments.csv")
             st.bar_chart(df['Crop_Disease'].value_counts())
-            fig = px.pie(df, names='Crop_Disease', title='Disease Distribution')
-            st.plotly_chart(fig)
 
     elif menu == "👥 All Users":
         st.title("👥 Registered Farmers")
-        if os.path.exists("users.csv"):
-            st.dataframe(pd.read_csv("users.csv"), use_container_width=True)
+        if os.path.exists("users.csv"): st.dataframe(pd.read_csv("users.csv"), use_container_width=True)
 
     elif menu == "📋 All Appointments":
         st.title("📋 All Appointments")
-        if os.path.exists("appointments.csv"):
-            st.dataframe(pd.read_csv("appointments.csv"), use_container_width=True)
-
-    elif menu == "👨‍⚕️ Manage Doctors":
-        st.title("👨‍⚕️ Doctors")
-        for doc in DOCTORS:
-            with st.container(border=True):
-                st.subheader(doc['name'])
-                st.write(f"{doc['specialization']} | {doc['hospital']} | {doc['fee']}")
+        if os.path.exists("appointments.csv"): st.dataframe(pd.read_csv("appointments.csv"), use_container_width=True)
 
     elif menu == "🔬 Test Model":
-        st.title("🔬 Test Model (Admin)")
+        st.title("🔬 Test Model")
         uploaded = st.file_uploader("Upload leaf", type=["jpg","jpeg","png"])
         if uploaded:
             image = Image.open(uploaded).convert("RGB")
@@ -237,21 +209,20 @@ else:
             farmer_loc = st.text_input("Location*")
             appt_date = st.date_input("Date", min_value=date.today())
             appt_time = st.selectbox("Time", ["10:00 AM", "11:00 AM", "2:00 PM", "3:00 PM", "4:00 PM"])
-            problem = st.text_area("Problem", f"Disease: {disease}")
             submit = st.form_submit_button("✅ Book & Notify", type="primary")
             if submit:
                 if not farmer_phone or not farmer_loc: st.warning("Fill phone & location")
                 else:
                     doctor_obj = next(d for d in DOCTORS if d["name"]==doc_name)
                     booking_id = f"BK{datetime.now().strftime('%Y%m%d%H%M%S')}"
-                    details = {"name": farmer_name, "phone": farmer_phone, "location": farmer_loc, "appt_date": str(appt_date), "time": appt_time, "booking_id": booking_id, "problem": problem}
+                    details = {"name": farmer_name, "phone": farmer_phone, "location": farmer_loc, "appt_date": str(appt_date), "time": appt_time, "booking_id": booking_id}
                     pd.DataFrame([{"Booking_ID": booking_id, "User_Email": st.session_state.user_email, "Farmer_Name": farmer_name, "Phone": farmer_phone, "Location": farmer_loc, "Crop_Disease": disease, "Doctor": doc_name, "Appointment_Date": str(appt_date), "Time_Slot": appt_time, "Status": "Confirmed"}]).to_csv("appointments.csv", mode='a', header=not os.path.exists("appointments.csv"), index=False)
                     st.session_state.last_booking = (doctor_obj, details, disease)
                     st.success(f"Booked! {booking_id}")
                     st.balloons()
         if st.session_state.last_booking:
             doctor_obj, details, disease = st.session_state.last_booking
-            wa_text = f"*Appointment* ID:{details['booking_id']} Farmer:{details['name']} Phone:{details['phone']} Disease:{disease} Date:{details['appt_date']} {details['time']}"
+            wa_text = f"Appointment ID:{details['booking_id']} Farmer:{details['name']} Phone:{details['phone']} Disease:{disease} Date:{details['appt_date']} {details['time']}"
             wa_url = f"https://wa.me/{doctor_obj['whatsapp']}?text={urllib.parse.quote(wa_text)}"
             sent = send_email_to_doctor(doctor_obj['email'], details, disease)
             c1, c2 = st.columns(2)
@@ -264,7 +235,6 @@ else:
             df = pd.read_csv("appointments.csv")
             my_df = df[df['User_Email']==st.session_state.user_email] if 'User_Email' in df.columns else df
             st.dataframe(my_df, use_container_width=True)
-        else: st.info("No appointments")
 
 if menu == "🚪 Logout":
     st.session_state.logged_in = False
