@@ -91,7 +91,7 @@ if not st.session_state.logged_in:
     # Controllable menu instead of st.tabs
     st.session_state.auth_tab = st.radio(
         "Select", ["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"],
-        horizontal=True, label_visibility="collapsed", key="auth_radio"
+        horizontal=True, label_visibility="collapsed"
     )
 
     if st.session_state.auth_tab == "🔐 User Login":
@@ -129,7 +129,6 @@ if not st.session_state.logged_in:
                 st.balloons()
                 time.sleep(1)
                 st.session_state.auth_tab = "🔐 User Login"
-                st.session_state.auth_radio = "🔐 User Login"
                 st.rerun()
 
     else: # Admin
