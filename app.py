@@ -82,6 +82,11 @@ if not st.session_state.logged_in:
     t1, t2, t3 = st.tabs(["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"])
 
     with t1:
+        # Show signup success message here
+        if st.session_state.get("signup_done"):
+            st.success(f"Account created for {st.session_state.get('new_email')}! Please login now.")
+            st.session_state.signup_done = False
+
         email = st.text_input("Email", key="u_email")
         password = st.text_input("Password", type="password", key="u_pass")
         if st.button("Login as User", use_container_width=True, type="primary"):
@@ -107,8 +112,12 @@ if not st.session_state.logged_in:
             elif os.path.exists("users.csv") and new_email in pd.read_csv("users.csv")['email'].values: st.error("Email exists")
             else:
                 save_user(name, new_email, new_pass, phone)
-                st.success("Account Created! Go to User Login.")
+                st.session_state.signup_done = True
+                st.session_state.new_email = new_email
+                st.success("Account Created! Redirecting to Login...")
                 st.balloons()
+                time.sleep(1.5)
+                st.rerun() # <-- THIS FIXES ROUTING, goes back to Tab 1 (Login)
 
     with t3:
         st.warning("For Project Admin Only")
