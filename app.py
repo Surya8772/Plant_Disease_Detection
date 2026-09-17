@@ -89,62 +89,63 @@ if not st.session_state.logged_in:
         st.session_state.signup_done = False
 
     # Controllable menu instead of st.tabs
-    st.session_state.auth_tab = st.radio(
+    auth_choice = st.radio(
         "Select", ["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"],
         horizontal=True, label_visibility="collapsed", key="auth_tab"
     )
+    if auth_choice == "🔐 User Login":
 
-    if st.session_state.auth_tab == "🔐 User Login":
-        if st.session_state.signup_done:
-            st.success("Account Created! Please login now.")
-            st.session_state.signup_done = False
+        if st.session_state.auth_tab == "🔐 User Login":
+            if st.session_state.signup_done:
+                st.success("Account Created! Please login now.")
+                st.session_state.signup_done = False
 
-        email = st.text_input("Email", key="u_email")
-        password = st.text_input("Password", type="password", key="u_pass")
-        if st.button("Login as User", use_container_width=True, type="primary"):
-            role = check_user(email, password)
-            if role == "user":
-                df = pd.read_csv("users.csv")
-                st.session_state.logged_in = True
-                st.session_state.user_email = email
-                st.session_state.user_name = df[df['email']==email].iloc[0]['name']
-                st.session_state.role = "user"
-                st.rerun()
-            else: st.error("Invalid credentials. Sign up first.")
+            email = st.text_input("Email", key="u_email")
+            password = st.text_input("Password", type="password", key="u_pass")
+            if st.button("Login as User", use_container_width=True, type="primary"):
+                role = check_user(email, password)
+                if role == "user":
+                    df = pd.read_csv("users.csv")
+                    st.session_state.logged_in = True
+                    st.session_state.user_email = email
+                    st.session_state.user_name = df[df['email']==email].iloc[0]['name']
+                    st.session_state.role = "user"
+                    st.rerun()
+                else: st.error("Invalid credentials. Sign up first.")
 
-    elif st.session_state.auth_tab == "📝 Sign Up":
-        name = st.text_input("Full Name*")
-        phone = st.text_input("Phone*")
-        new_email = st.text_input("Email*")
-        new_pass = st.text_input("Create Password*", type="password")
-        confirm_pass = st.text_input("Confirm Password*", type="password")
-        if st.button("Create Account", use_container_width=True):
-            if not name or not new_email or not new_pass: st.warning("Fill all *")
-            elif new_pass!= confirm_pass: st.error("Passwords don't match")
-            elif os.path.exists("users.csv") and new_email in pd.read_csv("users.csv")['email'].values: st.error("Email exists")
-            else:
-                save_user(name, new_email, new_pass, phone)
-                st.session_state.signup_done = True
-                st.success("Account Created! Redirecting to Login...")
-                st.balloons()
-                time.sleep(1)
-                st.session_state.auth_tab = "🔐 User Login"
-                st.rerun()
+        elif st.session_state.auth_tab == "📝 Sign Up":
+            name = st.text_input("Full Name*")
+            phone = st.text_input("Phone*")
+            new_email = st.text_input("Email*")
+            new_pass = st.text_input("Create Password*", type="password")
+            confirm_pass = st.text_input("Confirm Password*", type="password")
+            if st.button("Create Account", use_container_width=True):
+                if not name or not new_email or not new_pass: st.warning("Fill all *")
+                elif new_pass!= confirm_pass: st.error("Passwords don't match")
+                elif os.path.exists("users.csv") and new_email in pd.read_csv("users.csv")['email'].values: st.error("Email exists")
+                else:
+                    save_user(name, new_email, new_pass, phone)
+                    st.session_state.signup_done = True
+                    st.success("Account Created! Redirecting to Login...")
+                    st.balloons()
+                    time.sleep(1)
+                    st.session_state.auth_tab = "🔐 User Login"
+                    st.rerun()
 
-    else: # Admin
-        st.warning("For Project Admin Only")
-        a_email = st.text_input("Admin Email", key="a_email")
-        a_pass = st.text_input("Admin Password", type="password", key="a_pass")
-        if st.button("Login as Admin", use_container_width=True):
-            if check_user(a_email, a_pass) == "admin":
-                st.session_state.logged_in = True
-                st.session_state.user_email = a_email
-                st.session_state.user_name = "Admin"
-                st.session_state.role = "admin"
-                st.rerun()
-            else: st.error("Invalid Admin Credentials")
-        st.caption(f"Demo: {ADMIN_EMAIL} / admin123")
-    st.stop()
+        else: # Admin
+            st.warning("For Project Admin Only")
+            a_email = st.text_input("Admin Email", key="a_email")
+            a_pass = st.text_input("Admin Password", type="password", key="a_pass")
+            if st.button("Login as Admin", use_container_width=True):
+                if check_user(a_email, a_pass) == "admin":
+                    st.session_state.logged_in = True
+                    st.session_state.user_email = a_email
+                    st.session_state.user_name = "Admin"
+                    st.session_state.role = "admin"
+                    st.rerun()
+                else: st.error("Invalid Admin Credentials")
+            st.caption(f"Demo: {ADMIN_EMAIL} / admin123")
+        st.stop()
 
 # --- SIDEBAR ---
 with st.sidebar:
