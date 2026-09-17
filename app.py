@@ -15,7 +15,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="KrishiRakshak - Plant Doctor AI", page_icon="🌿", layout="wide")
 if os.path.exists("logo.jpeg"):
-    st.sidebar.image("logo.jpeg", use_container_width=True)
+    st.sidebar.image("logo.jpeg", use_column_width=True)
 
 # --- CONFIG ---
 SENDER_EMAIL = "suryaprakashrana302@gmail.com"
