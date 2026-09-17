@@ -86,10 +86,17 @@ if not st.session_state.logged_in:
     if "signup_done" not in st.session_state:
         st.session_state.signup_done = False
 
-    auth_choice = st.radio(
-        "Select", ["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"],
-        horizontal=True, label_visibility="collapsed", key="auth_tab"
-    )
+        tab_options = ["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"]
+        # Set default tab from session_state
+        default_index = tab_options.index(st.session_state.auth_tab) if st.session_state.auth_tab in tab_options else 0
+    
+        auth_choice = st.radio(
+            "Select", tab_options,
+            horizontal=True, label_visibility="collapsed", 
+            index=default_index
+        )
+        # Keep session state in sync
+        st.session_state.auth_tab = auth_choice
 
     if auth_choice == "🔐 User Login":
         if st.session_state.signup_done:
