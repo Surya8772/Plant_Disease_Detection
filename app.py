@@ -83,12 +83,20 @@ if not st.session_state.logged_in:
     st.title("🌿 KrishiRakshak - Plant Doctor AI")
     st.markdown("#### AI-Based Disease Detection with Doctor Consultation")
 
-    t1, t2, t3 = st.tabs(["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"])
+    if "auth_tab" not in st.session_state:
+        st.session_state.auth_tab = "🔐 User Login"
+    if "signup_done" not in st.session_state:
+        st.session_state.signup_done = False
 
-    with t1:
-        # Show signup success message here
-        if st.session_state.get("signup_done"):
-            st.success(f"Account created for {st.session_state.get('new_email')}! Please login now.")
+    # Controllable menu instead of st.tabs
+    st.session_state.auth_tab = st.radio(
+        "Select", ["🔐 User Login", "📝 Sign Up", "🛡️ Admin Login"],
+        horizontal=True, label_visibility="collapsed", key="auth_radio"
+    )
+
+    if st.session_state.auth_tab == "🔐 User Login":
+        if st.session_state.signup_done:
+            st.success("Account Created! Please login now.")
             st.session_state.signup_done = False
 
         email = st.text_input("Email", key="u_email")
@@ -104,7 +112,7 @@ if not st.session_state.logged_in:
                 st.rerun()
             else: st.error("Invalid credentials. Sign up first.")
 
-    with t2:
+    elif st.session_state.auth_tab == "📝 Sign Up":
         name = st.text_input("Full Name*")
         phone = st.text_input("Phone*")
         new_email = st.text_input("Email*")
@@ -117,13 +125,14 @@ if not st.session_state.logged_in:
             else:
                 save_user(name, new_email, new_pass, phone)
                 st.session_state.signup_done = True
-                st.session_state.new_email = new_email
                 st.success("Account Created! Redirecting to Login...")
                 st.balloons()
-                time.sleep(1.5)
-                st.rerun() # <-- THIS FIXES ROUTING, goes back to Tab 1 (Login)
+                time.sleep(1)
+                st.session_state.auth_tab = "🔐 User Login"
+                st.session_state.auth_radio = "🔐 User Login"
+                st.rerun()
 
-    with t3:
+    else: # Admin
         st.warning("For Project Admin Only")
         a_email = st.text_input("Admin Email", key="a_email")
         a_pass = st.text_input("Admin Password", type="password", key="a_pass")
