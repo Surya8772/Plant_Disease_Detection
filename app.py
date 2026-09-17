@@ -64,7 +64,9 @@ def send_email_to_doctor(doctor_email, farmer_details, disease):
     except: return False
 
 @st.cache_resource
-def load_model(): return tf.keras.models.load_model("plant_model.h5")
+def load_model():
+    model = tf.keras.models.load_model("plant_model.h5", compile=False)
+    return model
 
 CLASS_NAMES = ['Potato___Early_blight', 'Potato___healthy', 'Potato___Late_blight', 'Tomato___Bacterial_spot', 'Tomato___Early_blight', 'Tomato___healthy', 'Tomato___Late_blight', 'Tomato___Leaf_Mold']
 
