@@ -170,7 +170,7 @@ if st.session_state.role == "admin":
         uploaded = st.file_uploader("Upload leaf", type=["jpg","jpeg","png"])
         if uploaded:
             image = Image.open(uploaded).convert("RGB")
-            st.image(image, use_container_width=True)
+            st.image(image)
             img = image.resize((128,128))
             arr = np.expand_dims(np.array(img)/255.0, axis=0)
             model = load_model()
@@ -188,7 +188,7 @@ else:
         uploaded = st.file_uploader("Choose leaf", type=["jpg","jpeg","png"])
         if uploaded:
             image = Image.open(uploaded).convert("RGB")
-            st.image(image, use_container_width=True)
+            st.image(image)
             img = image.resize((128,128))
             arr = np.expand_dims(np.array(img)/255.0, axis=0)
             model = load_model()

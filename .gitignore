@@ -5,3 +5,4 @@ appointments.csv
 venv/
 dataset/
 model/
+*.h5
